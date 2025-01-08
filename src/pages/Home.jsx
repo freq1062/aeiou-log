@@ -1,10 +1,9 @@
 import React, { useRef, useState, useEffect } from "react";
 import EditorComponent from "../components/EditorComponent";
 import axios from "axios";
-// import { writeDataToDate } from "../../backend/write";
-// import "bootstrap/dist/css/bootstrap.min.css"; //what even is this bro "../../backend/write"; hi
 
 export default function Home() {
+  const BACKEND_URL = "https://aeiou-log-backend.onrender.com";
   const currentDate = new Date(
     new Date().getTime() - new Date().getTimezoneOffset() * 60000
   )
@@ -18,7 +17,7 @@ export default function Home() {
   async function addEntryToDate(date, entry) {
     //Add entry to MongoDB
     try {
-      await axios.post("http://localhost:4000/addEntry", {
+      await axios.post(`${BACKEND_URL}/addEntry`, {
         date,
         entry,
       });
@@ -30,7 +29,7 @@ export default function Home() {
   async function updateEntryAtDate(date, newEntry) {
     // Update entry at date in MongoDB
     try {
-      const response = await axios.patch("http://localhost:4000/updateEntry", {
+      const response = await axios.patch(`${BACKEND_URL}/updateEntry`, {
         date,
         newEntry,
       });
@@ -47,9 +46,7 @@ export default function Home() {
     //Return entry at date in MongoDB
     //req with YYYY-MM-DD
     try {
-      const response = await axios.get(
-        `http://localhost:4000/getEntries/${date}`
-      );
+      const response = await axios.get(`${BACKEND_URL}/getEntries/${date}`);
       if (response.data.length > 0) {
         return response.data[0].entry;
       } else {
