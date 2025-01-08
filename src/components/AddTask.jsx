@@ -3,9 +3,14 @@ import { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-const AddTask = ({ onAdd }) => {
+export default function AddTask({ onAdd }) {
   const [text, setText] = useState("");
-  const [day, setDay] = useState(""); //useState(new Date());
+  const [day, setDay] = useState("");
+  const currentDate = new Date(
+    new Date().getTime() - new Date().getTimezoneOffset() * 60000
+  )
+    .toISOString()
+    .split("T")[0];
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -15,7 +20,7 @@ const AddTask = ({ onAdd }) => {
       return;
     }
 
-    onAdd({ text, day });
+    onAdd({ text: text, day: day ? day : "None", created: currentDate });
 
     setText("");
     setDay("");
@@ -34,25 +39,13 @@ const AddTask = ({ onAdd }) => {
       </div>
 
       <div className="form-control">
-        <label>Add due date</label>
+        <label>Add due date (Optional)</label>
         <DatePicker
           selected={day}
           onChange={(day) => setDay(day.toDateString())}
         />
       </div>
-
-      {/* <div className="form-control form-control-check"> //setDay(day.getDate)
-        <label>Set Reminder?</label>
-        <input
-          type="checkbox"
-          checked={reminder}
-          value={reminder}
-          onChange={(e) => setReminder(e.currentTarget.checked)}
-        />
-      </div> */}
       <input type="submit" value="Save Task" className="btn btn-block" />
     </form>
   );
-};
-
-export default AddTask;
+}
