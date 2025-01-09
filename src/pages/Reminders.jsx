@@ -15,7 +15,7 @@ task:
 */
 
 export default function Reminders() {
-  const BACKEND_URL = "http://localhost:4000";
+  const BACKEND_URL = "https://aeiou-log-backend.onrender.com";
   const [showAddTask, setShowAddTask] = useState(false);
   const [tasks, setTasks] = useState([]);
 
